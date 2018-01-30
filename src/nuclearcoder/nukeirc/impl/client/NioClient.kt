@@ -15,7 +15,7 @@ import java.util.*
  * Created by NuclearCoder on 2018-01-26.
  */
 
-class NioClient(host: String, port: Int) : AbstractClient(host, port) {
+internal class NioClient(host: String, port: Int) : AbstractClient(host, port) {
 
     companion object {
         private const val BUFFER_SIZE = 512 // max IRC message length
@@ -103,7 +103,7 @@ class NioClient(host: String, port: Int) : AbstractClient(host, port) {
 
             val message = CHARSET.decode(buffer).toString()
 
-            responseManager.process(message)
+            responseHandler.process(message)
         }
     }
 

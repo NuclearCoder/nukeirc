@@ -4,17 +4,17 @@ import nuclearcoder.nukeirc.client.ClientListener
 import nuclearcoder.nukeirc.client.IrcClient
 import nuclearcoder.nukeirc.client.event.ClientConnectedEvent
 import nuclearcoder.nukeirc.client.event.ClientErrorEvent
-import nuclearcoder.nukeirc.impl.response.ResponseManagerImpl
-import nuclearcoder.nukeirc.response.ResponseManager
+import nuclearcoder.nukeirc.impl.response.ResponseHandlerImpl
+import nuclearcoder.nukeirc.response.ResponseHandler
 
 /**
  * Created by NuclearCoder on 2018-01-28.
  */
 
-abstract class AbstractClient(
+internal abstract class AbstractClient(
         protected val host: String,
         protected val port: Int,
-        protected val responseManager: ResponseManager = ResponseManagerImpl()
+        protected val responseHandler: ResponseHandler = ResponseHandlerImpl()
 ) : IrcClient {
 
     private val listeners = mutableListOf<ClientListener>()
