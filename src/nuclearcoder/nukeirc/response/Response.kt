@@ -1,14 +1,23 @@
 package nuclearcoder.nukeirc.response
 
+import nuclearcoder.nukeirc.impl.response.ResponseString
+
 /**
  * Created by NuclearCoder on 2018-01-29.
  */
 
 data class Response(
-        val prefix: ResponsePrefix,
+        val prefix: ResponsePrefix = ResponsePrefix.None,
         val command: ResponseCommand,
         val params: ResponseParams
 ) {
+
+    constructor(command: String, vararg params: String, longParam: String)
+            : this(command = ResponseCommand.Name(command), params = ResponseParams(params.toList(), longParam))
+
+    constructor(command: String, vararg params: String)
+            : this(command = ResponseCommand.Name(command), params = ResponseParams(params.toList(), null))
+
 
     sealed class ResponsePrefix {
         object None : ResponsePrefix() {
@@ -28,5 +37,7 @@ data class Response(
     }
 
     data class ResponseParams(val params: List<String>, val longParam: String?)
+
+    fun buildMessageString(): String = ResponseString.build(this)
 
 }

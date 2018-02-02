@@ -3,6 +3,7 @@ package nuclearcoder.nukeirc.impl.client
 import nuclearcoder.nukeirc.LOGGER
 import nuclearcoder.nukeirc.client.event.ClientConnectedEvent
 import nuclearcoder.nukeirc.client.event.ClientErrorEvent
+import nuclearcoder.nukeirc.response.Response
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
@@ -19,7 +20,7 @@ internal class NioClient(host: String, port: Int) : AbstractClient(host, port) {
 
     companion object {
         private const val BUFFER_SIZE = 512 // max IRC message length
-        private val CHARSET = Charsets.UTF_8
+        private val CHARSET = Charsets.US_ASCII
     }
 
     private val selector = Selector.open()
@@ -69,6 +70,10 @@ internal class NioClient(host: String, port: Int) : AbstractClient(host, port) {
         synchronized(writeQueue) {
             writeQueue.add(ByteBuffer.wrap(message.toByteArray(CHARSET)))
         }
+    }
+
+    override fun sendResponse(response: Response) {
+        sendRaw(response.buildMessageString())
     }
 
     // process keys

@@ -1,6 +1,11 @@
 package nuclearcoder.nukeirc
 
-import nuclearcoder.nukeirc.response.ResponseParser
+import nuclearcoder.nukeirc.client.ClientListener
+import nuclearcoder.nukeirc.client.IrcClient
+import nuclearcoder.nukeirc.client.event.ClientConnectedEvent
+import nuclearcoder.nukeirc.client.event.ClientErrorEvent
+import nuclearcoder.nukeirc.impl.client.NioClient
+import nuclearcoder.nukeirc.response.Response
 import java.util.logging.Logger
 
 /**
@@ -11,7 +16,6 @@ val LOGGER = Logger.getLogger("NukeIRC")
 
 fun main(args: Array<String>) {
 
-    /*
     val client: IrcClient = NioClient("localhost", 6667)
 
     client.addClientListener(object : ClientListener {
@@ -29,28 +33,8 @@ fun main(args: Array<String>) {
         client.start()
     }.start()
 
-    client.sendRaw("USER username 0 * :Full Name\r\n")
-    client.sendRaw("NICK nickname\r\n")
-    */
-
-    /*val max = 3
-
-    val str = ":host.host COMMAND word word word :tailblahayiporjketoi"
-
-    val colonstart = str.indexOf(" :")
-
-    val elements = (if (colonstart < 0) str else str.substring(0, colonstart)).split(' ', limit = max+1)
-
-    println(elements.joinToString { "\"$it\"" })
-
-    val endtail = if (colonstart < 0) "" else str.substring(colonstart + 1)
-    val tail = if (elements.size == max+1) (elements.last() + ' ' + endtail) else endtail
-
-    println(tail)*/
-
-
-    val m = ResponseParser.parseMessage("USER user\r\n")
-    println(m)
+    client.sendResponse(Response("NICK", "nickname"))
+    client.sendResponse(Response("USER", "username", "0", "*", longParam = "Full Name"))
 
 
 }
